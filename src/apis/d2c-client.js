@@ -1,6 +1,7 @@
 import axios from 'axios';
 import fs from 'fs/promises';
 import ms from 'ms';
+import { D2C } from '../config';
 
 const d2cApi = axios.create({
   baseURL: 'https://api.d2c.io',
@@ -28,9 +29,9 @@ async function getToken() {
       return file.token;
     }
   }
-  const {data: {member: {token}}} = await d2cApi.post('/login', {
-    email: process.env.D2C_EMAIL,
-    password: process.env.D2C_PASSWORD
+  const { data: { member: { token } } } = await d2cApi.post('/login', {
+    email: D2C.USER,
+    password: D2C.PASS
   });
   await fs.writeFile(cacheFileName, JSON.stringify({
     token,
@@ -41,8 +42,17 @@ async function getToken() {
   return token;
 }
 
+let fallbackEntities = null;
+
 async function getEntities() {
-  return d2cApi.get('/v1/acc/entities').then(({data}) => data.result);
+  try {
+    const { data: { result } } = d2cApi.get('/v1/acc/entities');
+    // cache latest value in case d2c api stops working...
+    fallbackEntities = result;
+    return result
+  } catch (e) {
+    return fallbackEntities;
+  }
 }
 
 export const d2cClient = {

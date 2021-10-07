@@ -5,10 +5,6 @@
 //     - If for some host we have more than 80% services unavailable, we consider this host unavailable (should be unavailable 5 time in a row to be considered unhealthy)
 //     - If more than 50% of hosts are unavailable, consider cluster manager (this service) unhealthy and reboot the host
 // If host considered unhealthy it will be rebooted by cluster manager
-import dotenv from 'dotenv';
-
-dotenv.config();
-
 import { Notifier } from './notifier/notifier';
 import { ConsoleChannel } from './notifier/channels/console-channel';
 import { processCluster } from './cluster-manager/cluster-manager';
