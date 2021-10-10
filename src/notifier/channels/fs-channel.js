@@ -1,4 +1,6 @@
-export class ConsoleChannel {
+import fs from 'fs/promises';
+
+export class FSChannel {
   async write(level, title, payload) {
     let body = `
 -----------------------
@@ -11,6 +13,6 @@ ${new Date().toISOString()}
 
     body += '\n-----------------------';
 
-    console.log(body);
+    await fs.appendFile('log.txt', body);
   }
 }

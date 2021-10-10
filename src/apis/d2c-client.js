@@ -1,7 +1,9 @@
 import axios from 'axios';
 import fs from 'fs/promises';
 import ms from 'ms';
-import { D2C } from '../config';
+import { D2C } from '../config/config.js';
+import { fileExists } from '../utils/file-exists.js';
+import { error } from '../utils/throw.js';
 
 const d2cApi = axios.create({
   baseURL: 'https://api.d2c.io',
@@ -23,16 +25,22 @@ d2cApi.interceptors.request.use(async config => {
 
 async function getToken() {
   const cacheFileName = '.d2c-auth-cache.json';
-  if (fs.existsSync(cacheFileName)) {
+  if (await fileExists(cacheFileName)) {
     const file = JSON.parse(await fs.readFile(cacheFileName, 'utf8'));
     if (file.expires_at > Date.now()) {
       return file.token;
     }
   }
-  const { data: { member: { token } } } = await d2cApi.post('/login', {
+  const result = await d2cApi.post('/login', {
     email: D2C.USER,
     password: D2C.PASS
   });
+  if (!result.data.success) {
+    error('D2C API failure: ' + result.data.error);
+  }
+
+  const { data: { member: { token } } } = result;
+
   await fs.writeFile(cacheFileName, JSON.stringify({
     token,
     // assume token valid for 3 hours
@@ -46,10 +54,11 @@ let fallbackEntities = null;
 
 async function getEntities() {
   try {
-    const { data: { result } } = d2cApi.get('/v1/acc/entities');
+    const result = await d2cApi.get('/v1/acc/entities');
+    const { data: { result: entities } } = result;
     // cache latest value in case d2c api stops working...
-    fallbackEntities = result;
-    return result
+    fallbackEntities = entities;
+    return entities
   } catch (e) {
     return fallbackEntities;
   }
