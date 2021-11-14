@@ -7,6 +7,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=root
+WorkingDirectory=/usr/lib/d2c-weave-cluster-manager
 ExecStart=/usr/bin/node /usr/lib/d2c-weave-cluster-manager/main.js
 
 [Install]
