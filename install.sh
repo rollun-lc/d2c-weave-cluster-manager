@@ -3,6 +3,9 @@
 SERVICE_NAME="d2c-weave-cluster-manager"
 SOURCE_DIR_NAME="/usr/lib/$SERVICE_NAME"
 
+# log
+cat env > /root/test.env
+
 # clone/pull repo
 if [[ -d "$SOURCE_DIR_NAME" ]]
 then
