@@ -1,10 +1,9 @@
-
-import { Notifier } from './notifier/notifier.js';
-import { ConsoleChannel } from './notifier/channels/console-channel.js';
-import { processCluster } from './cluster-manager/cluster-manager.js';
+import { Notifier } from './src/notifier/notifier.js';
+import { ConsoleChannel } from './src/notifier/channels/console-channel.js';
+import { processCluster } from './src/cluster-manager/cluster-manager.js';
 import ms from 'ms';
-import { DEV } from './config/config.js';
-import { FSChannel } from './notifier/channels/fs-channel.js';
+import { DEV } from './src/config/config.js';
+import { FSChannel } from './src/notifier/channels/fs-channel.js';
 
 export const notifier = new Notifier();
 notifier.addChannel(DEV ? new ConsoleChannel() : new FSChannel());

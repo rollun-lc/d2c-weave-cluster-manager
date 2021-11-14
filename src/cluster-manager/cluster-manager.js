@@ -1,5 +1,5 @@
 import { d2cClient } from '../apis/d2c-client.js';
-import { notifier } from '../main.js';
+import { notifier } from '../../main.js';
 import { weaveClient } from '../apis/weave-net-api.js';
 import { fileExists } from '../utils/file-exists.js';
 import fs from 'fs/promises';

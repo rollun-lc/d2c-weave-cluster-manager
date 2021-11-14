@@ -3,9 +3,9 @@
   "name": "d2c-weave-cluster-manager",
   "version": "1.0.0",
   "description": "Service that helps weave net (used by D2C.io) recover after failures",
-  "main": "src/main.js",
+  "main": "main.js",
   "scripts": {
-    "start": "node src/main.js"
+    "start": "node main.js"
   },
   "repository": {
     "type": "git",
