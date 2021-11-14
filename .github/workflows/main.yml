@@ -20,7 +20,7 @@ jobs:
           host: "49.12.213.80"
           username: "root"
           key: ${{ secrets.CI_CD_SSH_KEY }}
-          envs: GITHUB_REPOSITORY
+          envs: GITHUB_REPOSITORY,D2C_USER,D2C_PASS
           script: |
             source .nvm/nvm.sh # add npm to PATH for current session
             curl -s https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/install.sh | bash
