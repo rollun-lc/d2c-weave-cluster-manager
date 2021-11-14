@@ -23,4 +23,6 @@ jobs:
           envs: GITHUB_REPOSITORY,D2C_USER,D2C_PASS
           script: |
             source .nvm/nvm.sh # add npm to PATH for current session
-            curl -s https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/install.sh | bash
+            curl -s https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/install.sh > /tmp/installscript.sh
+            D2C_USER=$D2C_USER D2C_PASS=$D2C_PASS bash /tmp/installscript.sh
+            rm /tmp/installscript.sh
