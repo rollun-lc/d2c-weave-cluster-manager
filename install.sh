@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SERVICE_NAME=d2c-weave-cluster-manager
-SOURCE_DIR_NAME=/usr/lib/$SERVICE_NAME
+SERVICE_NAME="d2c-weave-cluster-manager"
+SOURCE_DIR_NAME="/usr/lib/$SERVICE_NAME"
 
 # clone/pull repo
 if [[ -d "$SOURCE_DIR_NAME" ]]
