@@ -18,7 +18,7 @@ repo contains install & update scripts
 
 - install.sh - will create systemd service, enable it to run on startup and starts it. Also updates service, if already exists
 
-to install service run
+to install/update service run
 ```shell
 curl -s https://raw.githubusercontent.com/rollun-com/d2c-weave-cluster-manager/master/install.sh | bash
 ```
