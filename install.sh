@@ -15,7 +15,7 @@ fi
 
 cat > "$SOURCE_DIR_NAME"/.env << EOL
 D2C_USER=$D2C_USER
-D2C_PASS=$D2C_D2C_PASS
+D2C_PASS=$D2C_PASS
 EOL
 
 # update libs
