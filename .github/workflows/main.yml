@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push: {}
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: deploy
+        uses: appleboy/ssh-action@master
+        with:
+          # 49.12.213.80 - hetzner-04
+          host: "49.12.213.80"
+          username: "root"
+          key: ${{ secrets.CI_CD_SSH_KEY }}
+          script: |
+            source .nvm/nvm.sh # add npm to PATH for current session
+            curl -s https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/install.sh | bash

@@ -1,0 +1,13 @@
+[Unit]
+Description=D2C Weave cluster manager service. Watches specified hosts for availability, and performs actions if needed
+After=docker.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/usr/bin/node /usr/lib/d2c-weave-cluster-manager/main.js
+
+[Install]
+WantedBy=multi-user.target

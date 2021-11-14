@@ -6,11 +6,10 @@ import fs from 'fs/promises';
 import ms from 'ms';
 
 const hostsToMonitor = [
-  // 'hetzner-first',
+  'hetzner-first',
   'hetzner-catalog',
-  // 'accounting-nr',
-  // 'do-sfo-01',
-  // 'hetzner-03',
+  'accounting-nr',
+  'hetzner-03',
 ];
 
 export async function fetchD2CServicesList() {
@@ -117,9 +116,11 @@ ${report.hosts.map(({ name, status, retry, available }) => `${name}: ${status} $
 }
 
 export async function rebootWeaveNetOnHost(host) {
-  // if (host === 'self') {
-    // return console.log('rebooting self')
-  // }
+  if (host === 'self') {
+    // additional logic for self reboot
+    notifier.info('rebooting ' + host);
+    return;
+  }
   notifier.info('rebooting ' + host);
 }
 
@@ -131,12 +132,11 @@ export async function processCluster() {
 
   printReport(report);
 
-  // report.clusterFailurePercentage >= 70
-  //   ? await rebootWeaveNetOnHost('self')
-  //   :
-  await Promise.all(
-    report.hosts
-      .filter(({ status, rebootLock }) => status === 'red' && !rebootLock)
-      .map(({ name }) => rebootWeaveNetOnHost(name))
-  );
+  report.clusterFailurePercentage >= 70
+    ? await rebootWeaveNetOnHost('self')
+    : await Promise.all(
+      report.hosts
+        .filter(({ status, rebootLock }) => status === 'red' && !rebootLock)
+        .map(({ name }) => rebootWeaveNetOnHost(name))
+    );
 }

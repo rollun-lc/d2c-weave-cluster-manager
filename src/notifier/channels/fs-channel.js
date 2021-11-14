@@ -1,6 +1,11 @@
 import fs from 'fs/promises';
 
 export class FSChannel {
+  constructor(fileName = 'all.log') {
+    this.fileName = fileName;
+  }
+
+
   async write(level, title, payload) {
     let body = `
 -----------------------
@@ -13,6 +18,6 @@ ${new Date().toISOString()}
 
     body += '\n-----------------------';
 
-    await fs.appendFile('log.txt', body);
+    await fs.appendFile(this.fileName, body);
   }
 }
