@@ -26,4 +26,4 @@ cp $SOURCE_DIR_NAME/systemd-service/$SERVICE_NAME.service /etc/systemd/system/$S
 
 systemctl daemon-reload
 service $SERVICE_NAME restart
-systemctl $SERVICE_NAME enable
+systemctl enable $SERVICE_NAME
