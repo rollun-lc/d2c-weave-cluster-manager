@@ -6,7 +6,7 @@ import fs from 'fs/promises';
 import ms from 'ms';
 
 const hostsToMonitor = [
-  'hetzner-first',
+  'hetzner-01-test',
   'hetzner-catalog',
   'accounting-nr',
   'hetzner-03',
