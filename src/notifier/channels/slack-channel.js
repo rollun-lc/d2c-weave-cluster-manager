@@ -1,6 +1,3 @@
-// curl -X POST -H 'Content-type: application/json' --data '{"text":"test, ignore me"}' https://hooks.slack.com/services/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
-// ok
-
 import { Axios } from 'axios';
 import { SLACK } from '../../config/config.js';
 
