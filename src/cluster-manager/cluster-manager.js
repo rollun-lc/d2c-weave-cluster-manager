@@ -109,7 +109,9 @@ export async function getClusterReport(d2cServices, weaveNetServices) {
 }
 
 export function printReport(report) {
-  notifier.info(`Cluster report`, `
+  const level = report.clusterFailurePercentage >= 70 ? 'info' : 'debug';
+
+  notifier[level](`Cluster report`, `
 clusterFailurePercentage: ${report.clusterFailurePercentage}
 
 ${report.hosts.map(({ name, status, retry, available }) => `${name}: ${status} ${retry} ${available}%`).join('\n')}`)
@@ -118,10 +120,10 @@ ${report.hosts.map(({ name, status, retry, available }) => `${name}: ${status} $
 export async function rebootWeaveNetOnHost(host) {
   if (host === 'self') {
     // additional logic for self reboot
-    notifier.info('rebooting ' + host);
+    notifier.info('[FAKE] rebooting ' + host);
     return;
   }
-  notifier.info('rebooting ' + host);
+  notifier.info('[FAKE] rebooting ' + host);
 }
 
 export async function processCluster() {

@@ -4,15 +4,17 @@ import { processCluster } from './src/cluster-manager/cluster-manager.js';
 import ms from 'ms';
 import { DEV } from './src/config/config.js';
 import { FSChannel } from './src/notifier/channels/fs-channel.js';
+import { SlackChannel } from './src/notifier/channels/slack-channel.js';
 
-export const notifier = new Notifier();
-notifier.addChannel(DEV ? new ConsoleChannel() : new FSChannel());
+export const notifier = DEV
+  ? new Notifier([new ConsoleChannel()], ['debug', 'info', 'error'])
+  : new Notifier([new FSChannel(), new SlackChannel()], ['info', 'error']);
 
 async function main() {
   try {
-    notifier.info('Cluster process start');
+    notifier.debug('Cluster process start');
     await processCluster();
-    notifier.info('Cluster process finish');
+    notifier.debug('Cluster process finish');
   } catch (e) {
     notifier.error('Could not process cluster', e.stack);
   }

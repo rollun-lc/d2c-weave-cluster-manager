@@ -15,14 +15,15 @@ jobs:
           GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
           D2C_USER: ${{ secrets.D2C_USER }}
           D2C_PASS: ${{ secrets.D2C_PASS }}
+          SLACK_ALERT_CHANNEL_WEBHOOK: ${{ secrets.SLACK_ALERT_CHANNEL_WEBHOOK }}
         with:
           # 49.12.213.80 - hetzner-04
           host: "49.12.213.80"
           username: "root"
           key: ${{ secrets.CI_CD_SSH_KEY }}
-          envs: GITHUB_REPOSITORY,D2C_USER,D2C_PASS
+          envs: GITHUB_REPOSITORY,D2C_USER,D2C_PASS,SLACK_ALERT_CHANNEL_WEBHOOK
           script: |
             source .nvm/nvm.sh # add npm to PATH for current session
             curl -s https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/install.sh > /tmp/installscript.sh
-            D2C_USER=$D2C_USER D2C_PASS=$D2C_PASS bash /tmp/installscript.sh
-            rm /tmp/installscript.sh
+            D2C_USER=$D2C_USER D2C_PASS=$D2C_PASS SLACK_ALERT_CHANNEL_WEBHOOK=$SLACK_ALERT_CHANNEL_WEBHOOK bash /tmp/installscript.sh
+            rm /tmp/installscript.sh # cleanup
