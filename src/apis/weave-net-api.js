@@ -1,7 +1,9 @@
 import execa from 'execa';
 import { DEV } from '../config/config.js';
+import { notifier } from '../../main.js';
 
 async function getPeersList() {
+  notifier.info('fetch weave peers');
   const args = DEV ? ['ssh', ['hetzner-04', 'weave', 'status', 'peers']] : ['weave', ['status', 'peers']];
   const { stdout: peersConnections } = await execa(...args);
 
@@ -13,6 +15,7 @@ async function getPeersList() {
 }
 
 async function getDNSEntriesList() {
+  notifier.info('fetch dns entries');
   const args = DEV ? ['ssh', ['hetzner-04', 'weave', 'status', 'dns']] : ['weave', ['status', 'dns']];
   const { stdout: dnsList } = await execa(...args);
 

@@ -1,12 +1,13 @@
 import axios from 'axios';
 import fs from 'fs/promises';
 import ms from 'ms';
+import { notifier } from '../../main.js';
 import { D2C } from '../config/config.js';
 import { fileExists } from '../utils/file-exists.js';
 import { error } from '../utils/throw.js';
 
 const d2cApi = axios.create({
-  baseURL: 'https://api.d2c.io',
+  baseURL: D2C.URL,
   headers: {
     "Accept": "application/json, text/plain, */*",
     "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
@@ -15,6 +16,7 @@ const d2cApi = axios.create({
 });
 
 d2cApi.interceptors.request.use(async config => {
+  notifier.info('d2c request', { method: config.method, url: config.url,  });
   if (config.url === '/login') {
     return config;
   }
@@ -60,6 +62,9 @@ async function getEntities() {
     fallbackEntities = entities;
     return entities
   } catch (e) {
+    if (fallbackEntities === null) {
+      throw new Error(JSON.stringify(e.response.data));
+    }
     return fallbackEntities;
   }
 }

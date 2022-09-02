@@ -4,11 +4,10 @@ import { processCluster } from './src/cluster-manager/cluster-manager.js';
 import ms from 'ms';
 import { DEV } from './src/config/config.js';
 import { FSChannel } from './src/notifier/channels/fs-channel.js';
-import { SlackChannel } from './src/notifier/channels/slack-channel.js';
 
 export const notifier = DEV
   ? new Notifier([new ConsoleChannel()], ['debug', 'info', 'error'])
-  : new Notifier([new FSChannel(), new SlackChannel()], ['info', 'error']);
+  : new Notifier([new FSChannel()], ['debug', 'info', 'error']);
 
 async function main() {
   try {

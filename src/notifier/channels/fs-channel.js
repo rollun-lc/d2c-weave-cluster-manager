@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 
 export class FSChannel {
-  constructor(fileName = 'all.log') {
+  constructor(fileName = '/var/log/d2c-weave-cluster-manager.log') {
     this.fileName = fileName;
   }
 

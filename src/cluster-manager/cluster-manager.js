@@ -6,10 +6,14 @@ import fs from 'fs/promises';
 import ms from 'ms';
 
 const hostsToMonitor = [
-  'hetzner-01-test',
+  'rollun-db',
   'hetzner-catalog',
-  'accounting-nr',
   'hetzner-03',
+  'hetzner-01-test',
+  'ftp-storage',
+  'hetzner-ashburn',
+  'hetzner-staging',
+  'rollun-db-replv2'
 ];
 
 export async function fetchD2CServicesList() {
@@ -136,7 +140,7 @@ export async function processCluster() {
 
   report.clusterFailurePercentage >= 70
     ? await rebootWeaveNetOnHost('self')
-    : await Promise.all(
+    : await Promise.allSettled(
       report.hosts
         .filter(({ status, rebootLock }) => status === 'red' && !rebootLock)
         .map(({ name }) => rebootWeaveNetOnHost(name))
